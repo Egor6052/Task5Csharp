@@ -13,7 +13,6 @@ namespace App5
         /// <summary>
         /// Срок службыстанции;
         /// </summary>
-        /// <exception cref="AggregateException"></exception>
         /// <exception cref="ArgumentException"></exception>
         public int YearOfWork
         {
@@ -22,7 +21,7 @@ namespace App5
             {
                 if (value < 0)
                 {
-                    throw new AggregateException("Срок службы не может быть отрицательным.");
+                    throw new ArgumentException("Срок службы не может быть отрицательным.");
                 }
                 if (value >= PowerStationInfo.MAXIMUM_YEAR_NuclearPowerPlant)
                 {
@@ -53,15 +52,15 @@ namespace App5
         /// <summary>
         /// Рабочее давление станции;
         /// </summary>
-        /// <exception cref="AggregateException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         public double OperatingPressure
         {
             get => _operatingPressure;
             set
             {
-                if (value >= THERMAL_PRESSURE_LIMIT)
+                if (value > THERMAL_PRESSURE_LIMIT)
                 {
-                    throw new AggregateException("Превышение рабочего давления.");
+                    throw new IndexOutOfRangeException("Превышение рабочего давления.");
                 }
 
                 _operatingPressure = value;

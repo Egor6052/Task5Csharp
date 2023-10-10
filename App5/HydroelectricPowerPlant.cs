@@ -10,11 +10,11 @@ namespace App5
         private double _operatingPressure;
         
         public static readonly double HYDROELECTRIC_PRESSURE_LIMIT = 100; // Лимит рабочего давления (Мегапаскалей);
+        
         /// <summary>
         /// Срок службыстанции;
         /// </summary>
-        /// <exception cref="AggregateException"></exception>
-        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         public int YearOfWork
         {
             get => _yearOfWork;
@@ -22,11 +22,11 @@ namespace App5
             {
                 if (value < 0)
                 {
-                    throw new AggregateException("Срок службы не может быть отрицательным.");
+                    throw new IndexOutOfRangeException("Срок службы не может быть отрицательным.");
                 }
                 if (value >= PowerStationInfo.MAXIMUM_YEAR_NuclearPowerPlant)
                 {
-                    throw new ArgumentException("Период эксплуатации станции 40 или более лет.");
+                    throw new IndexOutOfRangeException("Период эксплуатации станции 40 или более лет.");
                 }
                 _yearOfWork = value;
             }
@@ -53,7 +53,7 @@ namespace App5
         /// <summary>
         /// Рабочее давление станции;
         /// </summary>
-        /// <exception cref="AggregateException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         public double OperatingPressure
         {
             get => _operatingPressure;
@@ -61,7 +61,7 @@ namespace App5
             {
                 if (value >= HYDROELECTRIC_PRESSURE_LIMIT)
                 {
-                    throw new AggregateException("Превышение рабочего давления.");
+                    throw new IndexOutOfRangeException("Превышение рабочего давления.");
                 }
 
                 _operatingPressure = value;

@@ -97,7 +97,7 @@ namespace App5.Properties
             {
                 if (value < 0)
                 {
-                    throw new AggregateException("Цена не может быть отрицательной:");
+                    throw new ArgumentException("Цена не может быть отрицательной:");
                 }
 
                 _stationPrice = value;
