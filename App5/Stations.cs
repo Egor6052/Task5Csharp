@@ -6,15 +6,15 @@ namespace App5
     public class Stations
     {
         private PowerStationInfo _powerStationInfo;
-        private int _employeesCountCount;
+        private int _employeesCount;
 
         /// <summary>
         /// Число сотрудников;
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public int EmployeesCountCount
+        public int EmployeesCount
         {
-            get => _employeesCountCount;
+            get => _employeesCount;
             // проверка на количество;
             set
             {
@@ -22,20 +22,20 @@ namespace App5
                 {
                     throw new ArgumentException("Количество электростанций не может быть отрицательное количество.");
                 }
-                _employeesCountCount = value;    
+                _employeesCount = value;    
             }
             
         }
 
-        public Stations(string name, double performanceKilowatt, double currentGeneration, int employeesCountCount)
+        public Stations(string name, double performanceKilowatt, double currentGeneration, int employeesCount)
         {
             _powerStationInfo = new PowerStationInfo(name, performanceKilowatt, currentGeneration);
-            EmployeesCountCount = employeesCountCount;
+            EmployeesCount = employeesCount;
         }
         
         public override string ToString()
         {
-            return $"{_powerStationInfo}, Employees CountCount: {EmployeesCountCount}";
+            return $"{_powerStationInfo}, Employees CountCount: {EmployeesCount}";
         }
     }
 }

@@ -23,7 +23,7 @@ namespace App5
             Console.WriteLine(stationsArray.ToString());
 
             Console.WriteLine("После редактирования:");
-            stationsArray.EditStation(0, station6);
+            stationsArray.EditStation(3, station6);
             Console.WriteLine(stationsArray.ToString());
 
             Console.WriteLine("После удаления:");
