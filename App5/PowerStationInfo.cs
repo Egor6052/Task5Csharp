@@ -1,6 +1,5 @@
 using System;
-using System.Diagnostics;
-using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 namespace App5.Properties
 {
@@ -30,7 +29,6 @@ namespace App5.Properties
                 {
                     throw new ArgumentException("Имя не может быть пустой строкой или null.");
                 }
-
                 _name = value.Trim();
             }
         }
@@ -115,12 +113,17 @@ namespace App5.Properties
             get => _owner;
             set
             {
-                // проверка на нулевую строку или null;
-                if (value == null && value == "")
+                if (string.IsNullOrEmpty(value))
                 {
                     throw new ArgumentException("Имя владельца не может быть пустой строкой или null.");
                 }
-                _name = value.Trim();
+
+                // Проверка на наличие цифр или знаков препинания в имени владельца;
+                if (Regex.IsMatch(value, @"[\d!@#$%^&*()_+{}\[\]:;<>,.?~\\]"))
+                {
+                    throw new ArgumentException("Имя владельца не должно содержать цифры или знаки препинания.");
+                }
+                _owner = value.Trim();
             }
         }
 
