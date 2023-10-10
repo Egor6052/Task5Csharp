@@ -9,10 +9,17 @@ namespace App5.Properties
         private string _name;
         private double _performanceKilowatt;
         private double _currentGeneration;
+        private double _stationPrice;
+        private string _owner;
 
         public static readonly long MAX_VALUE_PERFORMANCE = 14000000000;    // Ед. измерений: КВт;
         public static readonly long MAX_VALUE_CURRENT = 10000;              // Ед. измерений: Ампер;
         public static readonly int MAXIMUM_YEAR_NuclearPowerPlant = 40;     // Максимальный период службы (годы); 
+
+        /// <summary>
+        /// Название станции;
+        /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         public string Name
         {
             get => _name;
@@ -23,6 +30,7 @@ namespace App5.Properties
                 {
                     throw new ArgumentException("Имя не может быть пустой строкой или null.");
                 }
+
                 _name = value.Trim();
             }
         }
@@ -45,12 +53,14 @@ namespace App5.Properties
                 // превышение рекомендуемой производительности;
                 if (value > MAX_VALUE_PERFORMANCE)
                 {
-                    throw new ArgumentException("Производительность больше максимальной, что-то не так или у нас новый рекорд.");
+                    throw new ArgumentException(
+                        "Производительность больше максимальной, что-то не так или у нас новый рекорд.");
 
                 }
+
                 _performanceKilowatt = value;
             }
-            
+
         }
 
         /// <summary>
@@ -75,20 +85,58 @@ namespace App5.Properties
 
                 _currentGeneration = value;
             }
-            
         }
 
-        public PowerStationInfo(string name, double performanceKilowatt, double currentGeneration)
+        /// <summary>
+        /// Цена станции;
+        /// </summary>
+        /// <param name="name"></param>
+        /// <exception cref="ArgumentException"></exception>
+        public double StationPrice
+        {
+            get => _stationPrice;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new AggregateException("Цена не может быть отрицательной:");
+                }
+
+                _stationPrice = value;
+            }
+        }
+
+        /// <summary>
+        /// Имя владельца Станции;
+        /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        public string Owner
+        {
+            get => _owner;
+            set
+            {
+                // проверка на нулевую строку или null;
+                if (value == null && value == "")
+                {
+                    throw new ArgumentException("Имя владельца не может быть пустой строкой или null.");
+                }
+                _name = value.Trim();
+            }
+        }
+
+        public PowerStationInfo(string name, double performanceKilowatt, double currentGeneration, double stationPrice, string owner)
         {
             Name = name;
             Performance = performanceKilowatt;
             CurrentGeneration = currentGeneration;
+            StationPrice = stationPrice;
+            Owner = owner;
         }
-        
+
         public override string ToString()
         {
-            return $"Name: {Name}, Performance: {Performance}, Current Generation: {CurrentGeneration}";
+            return
+                $"Name: {Name}, Performance: {Performance}, Current Generation: {CurrentGeneration}, Station Price: {StationPrice}$(million), Owner Station: {Owner} ";
         }
     }
-   
 }

@@ -7,8 +7,14 @@ namespace App5
     {
         private string _stationLocation;
         private int _yearOfWork;
-
-        // Годы работы станции;
+        private double _operatingPressure;
+        
+        public static readonly double HYDROELECTRIC_PRESSURE_LIMIT = 100; // Лимит рабочего давления (Мегапаскалей);
+        /// <summary>
+        /// Срок службыстанции;
+        /// </summary>
+        /// <exception cref="AggregateException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public int YearOfWork
         {
             get => _yearOfWork;
@@ -25,6 +31,11 @@ namespace App5
                 _yearOfWork = value;
             }
         }
+        
+        /// <summary>
+        /// Расположение станции;
+        /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         public string Location
         {
             get => _stationLocation;
@@ -39,14 +50,33 @@ namespace App5
             }
         }
 
-        public HydroelectricPowerlant(string name, double performanceKilowatt, double currentGeneration, int employeesCount, string stationLocation, int yearOfWork) : base(name, performanceKilowatt, currentGeneration, employeesCount)
+        /// <summary>
+        /// Рабочее давление станции;
+        /// </summary>
+        /// <exception cref="AggregateException"></exception>
+        public double OperatingPressure
+        {
+            get => _operatingPressure;
+            set
+            {
+                if (value >= HYDROELECTRIC_PRESSURE_LIMIT)
+                {
+                    throw new AggregateException("Превышение рабочего давления.");
+                }
+
+                _operatingPressure = value;
+            }
+        }
+
+        public HydroelectricPowerlant(string name, double performanceKilowatt, double currentGeneration, int employeesCount, string stationLocation, int yearOfWork, double stationPrice, double operatingPressure, string owner) : base(name, performanceKilowatt, currentGeneration, employeesCount, stationPrice, owner)
         {
             Location = stationLocation;
             YearOfWork = yearOfWork;
+            OperatingPressure = operatingPressure;
         }
         public override string ToString()
         {
-            return $"{base.ToString()}, Location: {Location}, YearOfWork: {YearOfWork}";
+            return $"{base.ToString()}, Location: {Location}, YearOfWork: {YearOfWork}, Operating Pressure: {OperatingPressure}(Мегапаскалей)";
         }
     }
 }

@@ -27,9 +27,9 @@ namespace App5
             
         }
 
-        public Stations(string name, double performanceKilowatt, double currentGeneration, int employeesCount)
+        public Stations(string name, double performanceKilowatt, double currentGeneration, int employeesCount, double stationPrice, string owner)
         {
-            _powerStationInfo = new PowerStationInfo(name, performanceKilowatt, currentGeneration);
+            _powerStationInfo = new PowerStationInfo(name, performanceKilowatt, currentGeneration, stationPrice, owner);
             EmployeesCount = employeesCount;
         }
         

@@ -7,8 +7,16 @@ namespace App5
     {
         private string _stationLocation;
         private int _yearOfWork;
-
-        // Годы работы станции;
+        private double _operatingPressure;
+        
+        public static readonly double LOWER_NUCLEAR_PRESSURE_LIMIT = 70; //Нижний лимит (Атмосфер);
+        public static readonly double UPPER_NUCLEAR_PRESSURE_LIMIT = 160; //Верхний лимит (Атмосфер);
+        
+        /// <summary>
+        /// Срок службыстанции;
+        /// </summary>
+        /// <exception cref="AggregateException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public int YearOfWork
         {
             get => _yearOfWork;
@@ -26,7 +34,10 @@ namespace App5
             }
         }
 
+        /// <summary>
         /// Расположение станции;
+        /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         public string Location
         {
             get => _stationLocation;
@@ -41,15 +52,38 @@ namespace App5
             }
         }
 
-        public NuclearPowerPlant(string name, double performanceKilowatt, double currentGeneration, int employeesCountCount, string stationLocation, int yearOfWork) : base(name, performanceKilowatt, currentGeneration, employeesCountCount)
+        /// <summary>
+        /// Рабочее давление станции;
+        /// </summary>
+        /// <exception cref="AggregateException"></exception>
+        public double OperatingPressure
+        {
+            get => _operatingPressure;
+            set
+            {
+                if (value > UPPER_NUCLEAR_PRESSURE_LIMIT)
+                {
+                    throw new AggregateException("Превышение рабочего давления.");
+                }
+
+                if (value < LOWER_NUCLEAR_PRESSURE_LIMIT)
+                {
+                    throw new AggregateException("Малое рабочее давление.");
+                }
+
+                _operatingPressure = value;
+            }
+        }
+        public NuclearPowerPlant(string name, double performanceKilowatt, double currentGeneration, int employeesCountCount, string stationLocation, int yearOfWork, double stationPrice, double operatingPressure, string owner) : base(name, performanceKilowatt, currentGeneration, employeesCountCount, stationPrice, owner)
         {
             Location = stationLocation;
             YearOfWork = yearOfWork;
+            OperatingPressure = operatingPressure;
         }
         
         public override string ToString()
         {
-            return $"{base.ToString()}, Location: {Location}, YearOfWork: {YearOfWork}";
+            return $"{base.ToString()}, Location: {Location}, YearOfWork: {YearOfWork}, Operating Pressure: {OperatingPressure}(Атмосфер)";
         }
     }
 }
