@@ -13,7 +13,7 @@ namespace App5.Properties
 
         public static readonly long MAX_VALUE_PERFORMANCE = 14000000000;    // Ед. измерений: КВт;
         public static readonly long MAX_VALUE_CURRENT = 10000;              // Ед. измерений: Ампер;
-        public static readonly int MAXIMUM_YEAR_NuclearPowerPlant = 40;     // Максимальный период службы (годы); 
+        public static readonly int MAXIMUM_YEAR_SERVICE = 40;               // Максимальный период службы (годы); 
 
         /// <summary>
         /// Название станции;

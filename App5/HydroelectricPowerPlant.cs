@@ -5,48 +5,46 @@ namespace App5
 {
     public class HydroelectricPowerlant : Stations
     {
-        private string _stationLocation;
-        private int _yearOfWork;
+        private int _countOfCitiesAround;
+        private int _amountOfReservoir;
         private double _operatingPressure;
-        
+
+        public static readonly int SITIES_AROUND = 50;  // Лимит городов, питаемых станцией;
         public static readonly double HYDROELECTRIC_PRESSURE_LIMIT = 100; // Лимит рабочего давления (Мегапаскалей);
         
         /// <summary>
-        /// Срок службыстанции;
+        /// Количество водяных резервуаров около станции;
         /// </summary>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public int YearOfWork
+        public int AmountOfReservoir
         {
-            get => _yearOfWork;
+            get => _amountOfReservoir;
             set
             {
+                // ограничений на количество водохранилищь не существует;
                 if (value < 0)
                 {
-                    throw new IndexOutOfRangeException("Срок службы не может быть отрицательным.");
+                    throw new IndexOutOfRangeException("Количество водяных резервуаров не может быть отрицательным.");
                 }
-                if (value >= PowerStationInfo.MAXIMUM_YEAR_NuclearPowerPlant)
-                {
-                    throw new IndexOutOfRangeException("Период эксплуатации станции 40 или более лет.");
-                }
-                _yearOfWork = value;
+                _amountOfReservoir = value;
             }
         }
         
         /// <summary>
-        /// Расположение станции;
+        /// Количество зависящих от электростанции городов;
         /// </summary>
-        /// <exception cref="ArgumentException"></exception>
-        public string Location
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        public int CountOfCitiesAround
         {
-            get => _stationLocation;
+            get => _countOfCitiesAround;
             set
             {
-                // проверки корректность ввода данных о локации;
-                if (string.IsNullOrWhiteSpace(value))
+                // Городов, зависящих от станции не может быть более 50;
+                if (value > SITIES_AROUND)
                 {
-                    throw new ArgumentException("Локация не может быть пустой строкой или null.");
+                    throw new IndexOutOfRangeException("Станция не может питать такое количество городов.");
                 }
-                _stationLocation = value.Trim();
+                _countOfCitiesAround = value;
             }
         }
 
@@ -68,15 +66,15 @@ namespace App5
             }
         }
 
-        public HydroelectricPowerlant(string name, double performanceKilowatt, double currentGeneration, int employeesCount, string stationLocation, int yearOfWork, double stationPrice, double operatingPressure, string owner) : base(name, performanceKilowatt, currentGeneration, employeesCount, stationPrice, owner)
+        public HydroelectricPowerlant(string name, double performanceKilowatt, double currentGeneration, int employeesCount, int countOfCitiesAround, int amountOfReservoir, double stationPrice, double operatingPressure, string owner) : base(name, performanceKilowatt, currentGeneration, employeesCount, stationPrice, owner)
         {
-            Location = stationLocation;
-            YearOfWork = yearOfWork;
+            CountOfCitiesAround = countOfCitiesAround;
+            AmountOfReservoir = amountOfReservoir;
             OperatingPressure = operatingPressure;
         }
         public override string ToString()
         {
-            return $"{base.ToString()}, Location: {Location}, YearOfWork: {YearOfWork}, Operating Pressure: {OperatingPressure}(Мегапаскалей)";
+            return $"{base.ToString()}, Count Of Cities Around: {CountOfCitiesAround}, Amount Of Reservoir: {AmountOfReservoir}, Operating Pressure: {OperatingPressure}(Мегапаскалей)";
         }
     }
 }

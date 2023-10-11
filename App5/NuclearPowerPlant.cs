@@ -6,30 +6,31 @@ namespace App5
     public class NuclearPowerPlant: Stations
     {
         private string _stationLocation;
-        private int _yearOfWork;
-        private double _operatingPressure;
+        private int _radiationSafety;
+        private int _numberOfReactors;
         
-        public static readonly double LOWER_NUCLEAR_PRESSURE_LIMIT = 70; //Нижний лимит (Атмосфер);
-        public static readonly double UPPER_NUCLEAR_PRESSURE_LIMIT = 160; //Верхний лимит (Атмосфер);
+        public static readonly int RADIATION_LIMIT = 50;  // Максимальная допустимая доза радиации на станции. (Ед. измерения: Миллисиверт);
+        public static readonly int REACTORS_LIMIT = 10;  // Максимальное безопасное количество реакторов;
         
         /// <summary>
-        /// Срок службыстанции;
+        /// Радиационная безопасность на станции;
         /// </summary>
-        /// <exception cref="ArgumentException"></exception>
-        public int YearOfWork
+        /// <exception cref="IndexOutOfRangeException"></exception>
+        public int RadiationSafety
         {
-            get => _yearOfWork;
+            get => _radiationSafety;
             set
             {
                 if (value < 0)
                 {
-                    throw new ArgumentException("Срок службы не может быть отрицательным.");
+                    throw new IndexOutOfRangeException("Отрицательное число радиации быть не может.");
                 }
-                if (value >= PowerStationInfo.MAXIMUM_YEAR_NuclearPowerPlant)
+
+                if (value > RADIATION_LIMIT)
                 {
-                    throw new ArgumentException("Период эксплуатации станции 40 или более лет.");
+                    throw new IndexOutOfRangeException("Превышена норма радиации.");
                 }
-                _yearOfWork = value;
+                _radiationSafety = value;
             }
         }
 
@@ -52,37 +53,36 @@ namespace App5
         }
 
         /// <summary>
-        /// Рабочее давление станции;
+        /// Количество реакторов на ядерной электростанции;
         /// </summary>
         /// <exception cref="IndexOutOfRangeException"></exception>
-        public double OperatingPressure
+        public int NumberOfReactors
         {
-            get => _operatingPressure;
+            get => _numberOfReactors;
             set
             {
-                if (value > UPPER_NUCLEAR_PRESSURE_LIMIT)
+                if (value < 0)
                 {
-                    throw new IndexOutOfRangeException("Превышение рабочего давления.");
+                    throw new IndexOutOfRangeException("Отрицательное количество реакторов быть не может.");
                 }
 
-                if (value < LOWER_NUCLEAR_PRESSURE_LIMIT)
+                if (value > REACTORS_LIMIT)
                 {
-                    throw new IndexOutOfRangeException("Малое рабочее давление.");
+                    throw new IndexOutOfRangeException("Большее количество реакторов может быть рисковано.");
                 }
-
-                _operatingPressure = value;
+                _numberOfReactors = value;
             }
         }
-        public NuclearPowerPlant(string name, double performanceKilowatt, double currentGeneration, int employeesCountCount, string stationLocation, int yearOfWork, double stationPrice, double operatingPressure, string owner) : base(name, performanceKilowatt, currentGeneration, employeesCountCount, stationPrice, owner)
+        public NuclearPowerPlant(string name, double performanceKilowatt, double currentGeneration, int employeesCountCount, string stationLocation, int radiationSafety, double stationPrice, int numberOfReactors, string owner) : base(name, performanceKilowatt, currentGeneration, employeesCountCount, stationPrice, owner)
         {
             Location = stationLocation;
-            YearOfWork = yearOfWork;
-            OperatingPressure = operatingPressure;
+            RadiationSafety = radiationSafety;
+            NumberOfReactors = numberOfReactors;
         }
         
         public override string ToString()
         {
-            return $"{base.ToString()}, Location: {Location}, YearOfWork: {YearOfWork}, Operating Pressure: {OperatingPressure}(Атмосфер)";
+            return $"{base.ToString()}, Location: {Location}, Radiation Safety: {RadiationSafety}, Number Of Reactors: {NumberOfReactors}";
         }
     }
 }

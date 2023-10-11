@@ -23,7 +23,7 @@ namespace App5
                 {
                     throw new ArgumentException("Срок службы не может быть отрицательным.");
                 }
-                if (value >= PowerStationInfo.MAXIMUM_YEAR_NuclearPowerPlant)
+                if (value >= PowerStationInfo.MAXIMUM_YEAR_SERVICE)
                 {
                     throw new ArgumentException("Период эксплуатации станции 40 или более лет.");
                 }
