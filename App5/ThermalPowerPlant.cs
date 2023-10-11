@@ -5,10 +5,11 @@ namespace App5
 {
     public class ThermalPowerPlant : Stations
     {
-        private string _stationLocation;
+        private double _contamination;
         private double _vaporGeneration;
         private double _operatingPressure;
         
+        private readonly double MAXIMUM_CONTAMINATION = 75;  // Максимально допустимая суточная средняя концентрация (parts per billion, ppb)
         public static readonly double THERMAL_PRESSURE_LIMIT = 100; // Лимит рабочего давления (Бар);
         private readonly double VAPOR_MAXIMUM = 8000;               // Безопасный лимит производимого пара (кг/час);
         
@@ -37,17 +38,21 @@ namespace App5
         /// Расположение станции;
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public string Location
+        public double Contamination
         {
-            get => _stationLocation;
+            get => _contamination;
             set
             {
-                // проверки корректность ввода данных о локации;
-                if (string.IsNullOrWhiteSpace(value))
+                if (value < 0)
                 {
-                    throw new ArgumentException("Локация не может быть пустой строкой или null.");
+                    throw new IndexOutOfRangeException("Уровень загрязнений не может быть отрицательным.");
                 }
-                _stationLocation = value.Trim();
+                // проверка на превышение уровня выделяемых загрызнений;
+                if (value > MAXIMUM_CONTAMINATION)
+                {
+                    throw new IndexOutOfRangeException("Превышен допустимый уровень загрязнений.");
+                }
+                _contamination = value;
             }
         }
 
@@ -69,15 +74,15 @@ namespace App5
             }
         }
         
-        public ThermalPowerPlant(string name, double performanceKilowatt, double currentGeneration, int employeesCount, string stationLocation, int vaporGeneration, double stationPrice, double operatingPressure, string owner) : base(name, performanceKilowatt, currentGeneration, employeesCount, stationPrice, owner)
+        public ThermalPowerPlant(string name, double performanceKilowatt, double currentGeneration, int employeesCount, double stationContamination, int vaporGeneration, double stationPrice, double operatingPressure, string owner) : base(name, performanceKilowatt, currentGeneration, employeesCount, stationPrice, owner)
         {
-            Location = stationLocation;
+            Contamination = stationContamination;
             VaporGeneration = vaporGeneration;
             OperatingPressure = operatingPressure;
         }
         public override string ToString()
         {
-            return $"{base.ToString()}, Location: {Location}, Vapor Generation: {VaporGeneration}, Operating Pressure: {OperatingPressure}(Бар)";
+            return $"{base.ToString()}, Contamination (day): {Contamination}, Vapor Generation: {VaporGeneration}, Operating Pressure: {OperatingPressure}(Бар)";
         }
     }
 }
