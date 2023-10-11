@@ -6,28 +6,30 @@ namespace App5
     public class ThermalPowerPlant : Stations
     {
         private string _stationLocation;
-        private int _yearOfWork;
+        private double _vaporGeneration;
         private double _operatingPressure;
         
         public static readonly double THERMAL_PRESSURE_LIMIT = 100; // Лимит рабочего давления (Бар);
+        private readonly double VAPOR_MAXIMUM = 8000;               // Безопасный лимит производимого пара (кг/час);
+        
         /// <summary>
-        /// Срок службыстанции;
+        /// Генерация пара электростанцией для турбины;
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        public int YearOfWork
+        public double VaporGeneration
         {
-            get => _yearOfWork;
+            get => _vaporGeneration;
             set
             {
                 if (value < 0)
                 {
-                    throw new ArgumentException("Срок службы не может быть отрицательным.");
+                    throw new IndexOutOfRangeException("Генерация пара не может быть отрицательной.");
                 }
-                if (value >= PowerStationInfo.MAXIMUM_YEAR_SERVICE)
+                if (value >= VAPOR_MAXIMUM)
                 {
-                    throw new ArgumentException("Период эксплуатации станции 40 или более лет.");
+                    throw new IndexOutOfRangeException("Превышение генерации пара, это может навредить турбине станции.");
                 }
-                _yearOfWork = value;
+                _vaporGeneration = value;
             }
         }
         
@@ -67,15 +69,15 @@ namespace App5
             }
         }
         
-        public ThermalPowerPlant(string name, double performanceKilowatt, double currentGeneration, int employeesCount, string stationLocation, int yearOfWork, double stationPrice, double operatingPressure, string owner) : base(name, performanceKilowatt, currentGeneration, employeesCount, stationPrice, owner)
+        public ThermalPowerPlant(string name, double performanceKilowatt, double currentGeneration, int employeesCount, string stationLocation, int vaporGeneration, double stationPrice, double operatingPressure, string owner) : base(name, performanceKilowatt, currentGeneration, employeesCount, stationPrice, owner)
         {
             Location = stationLocation;
-            YearOfWork = yearOfWork;
+            VaporGeneration = vaporGeneration;
             OperatingPressure = operatingPressure;
         }
         public override string ToString()
         {
-            return $"{base.ToString()}, Location: {Location}, YearOfWork: {YearOfWork}, Operating Pressure: {OperatingPressure}(Бар)";
+            return $"{base.ToString()}, Location: {Location}, Vapor Generation: {VaporGeneration}, Operating Pressure: {OperatingPressure}(Бар)";
         }
     }
 }

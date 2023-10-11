@@ -12,9 +12,8 @@ namespace App5.Properties
         private string _owner;
 
         public static readonly long MAX_VALUE_PERFORMANCE = 14000000000;    // Ед. измерений: КВт;
-        public static readonly long MAX_VALUE_CURRENT = 10000;              // Ед. измерений: Ампер;
-        public static readonly int MAXIMUM_YEAR_SERVICE = 40;               // Максимальный период службы (годы); 
-
+        public static readonly int  MAX_VALUE_CURRENT = 10000;              // Ед. измерений: Ампер;
+        
         /// <summary>
         /// Название станции;
         /// </summary>
